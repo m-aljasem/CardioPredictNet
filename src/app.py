@@ -22,7 +22,8 @@ import tensorflow as tf
 from pathlib import Path
 from datetime import datetime
 from typing import Tuple
-
+from config import ModelConfig
+from model import HeartDiseasePredictor
 # ============================================================================
 # Page Configuration and Professional Styling
 # ============================================================================
@@ -509,10 +510,10 @@ def main():
     st.markdown("<p style='text-align:center; color:#94a3b8;'>Enter patient metrics below to receive an AI-powered risk assessment.</p>", unsafe_allow_html=True)
 
     # Load the model
-    model = HeartDiseaseModel(
-        model_path="models/best_heart_disease_model.keras",
-        scaler_path="models/scaler.pkl"
-    )
+    config = ModelConfig()
+    predictor = HeartDiseasePredictor(config)
+    predictor.load_trained_model()
+
 
     with st.container():
         st.markdown('<div class="block-container">', unsafe_allow_html=True)
@@ -554,7 +555,7 @@ def main():
         ]], dtype=np.float32)
 
         with st.spinner("Performing deep learning analysis..."):
-            prediction, probability = model.predict(features)
+            prediction, probability = predictor.predict(features)
 
         with st.container():
             st.markdown('<div class="block-container">', unsafe_allow_html=True)
