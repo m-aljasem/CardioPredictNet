@@ -1,0 +1,8 @@
+# .streamlit/config.toml
+
+[server]
+headless = true
+
+# Tell Streamlit to use Python 3.10 for this app
+[runner]
+pythonVersion = "3.10"
