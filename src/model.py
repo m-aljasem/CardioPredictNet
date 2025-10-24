@@ -309,19 +309,14 @@ class HeartDiseasePredictor:
         }
 
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
-      """Generates binary predictions for new data using the Keras model."""
-      if self.model is None:
-          raise ValueError("Model not loaded. Call train() or load_trained_model() first.")
-      
-      # Scale the input data using the loaded scaler
-      X_scaled = self.scaler.transform(X)
+    def predict(self, X: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        """Generates binary predictions and probabilities for new data."""
+        if self.model is None:
+            raise ValueError("Model not loaded. Call train() or load_trained_model() first.")
 
-      # --- FIX IS HERE ---
-      # Use the standard Keras model.predict() method
-      probabilities = self.model.predict(X_scaled)
-      
-      # Convert probabilities to binary predictions (0 or 1)
-      predictions = (probabilities > self.config.prediction_threshold).astype(int)
-      
-      return predictions
+        X_scaled = self.scaler.transform(X)
+        probabilities = self.model.predict(X_scaled)
+        predictions = (probabilities > self.config.prediction_threshold).astype(int)
+
+        # Return both values as a tuple
+        return predictions, probabilities
