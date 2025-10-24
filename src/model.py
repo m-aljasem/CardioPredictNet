@@ -14,6 +14,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix, roc_curve, auc, precision_score, recall_score, f1_score
 from sklearn.preprocessing import StandardScaler
 from tqdm.notebook import tqdm
+from config import ModelConfig
+
+
 
 class TQDMProgressBar(Callback):
     """A custom Keras callback for a clean, single-line training progress bar."""
